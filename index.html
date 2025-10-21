@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Input Barang</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 250px; }
+  </style>
+</head>
+<body>
+  <h2>Form Input Barang</h2>
+  <form id="form">
+    <input type="text" name="nama" placeholder="Nama" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="barang" placeholder="Nama Barang" required>
+    <input type="number" name="jumlah" placeholder="Jumlah" required>
+    <button type="submit">Kirim</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxzCrNul00v097VAcUFWaQWV_l0vlWYp2aHkkIyzPM7lULMO2aKFtQDJKE8hwPzL6J6hg/exec';
+    const form = document.getElementById('form');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(form));
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(txt => document.getElementById('result').innerText = txt)
+      .catch(err => document.getElementById('result').innerText = 'Error: ' + err);
+      
+      form.reset();
+    });
+  </script>
+</body>
+</html>
